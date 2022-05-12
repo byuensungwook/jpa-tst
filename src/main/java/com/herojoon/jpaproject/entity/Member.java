@@ -16,7 +16,13 @@ import java.util.Date;
 @Getter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  // JPA에서 lazy관련 에러 날 경우 사용
 @Entity  // 객체와 테이블 매핑
-@Table(name = "MEMBER")  // 테이블 지정
+@Table(name = "MEMBER")  // index 없음 (기본 테이블 생성)
+//@Table(name = "MEMBER", indexes = @Index(name = "idx__email__birthday", columnList = "email, birthday"))  // 단일 index 생성
+/*@Table(name = "MEMBER", indexes = {  // 복합 index 생성
+        @Index(name = "idx__email__birthday", columnList = "email, birthday"),  // index (unique = false (default))
+        @Index(name = "idx__name__age", columnList = "name, age"),  // index (unique = false (default))
+        @Index(name = "idx__unique__nickname", columnList = "nickname", unique = true)  // unique index
+})*/
 public class Member {
     @Id  // Primary Key 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // AUTO_INCREMENT 설정 (id값이 null일 경우 자동 생성)
